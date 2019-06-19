@@ -16,3 +16,9 @@
 .celsius {
   padding-top: 10px;
 }
+
+.backButton {
+  border: none;
+  color: #fff;
+  background-color: transparent;
+}
