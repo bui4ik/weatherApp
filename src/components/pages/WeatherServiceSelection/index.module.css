@@ -1,0 +1,44 @@
+.logoContainer {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 10px auto;
+}
+
+.logoContainer svg{
+  width: 100px;
+  height: 100px;
+}
+
+
+.title {
+  font-size: 25px;
+  font-weight: 600;
+  color: rgba(0,0,0,0.6);
+  margin: 0 auto 10px auto;
+}
+
+.text{
+  font-size: 15px;
+  color: #fff;
+  margin: 0 auto 20px auto;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.button {
+  padding: 5px 10px;
+  margin: 0 10px;
+  color: #fff;
+  border: 2px solid #fff;
+  background-color: #f44336;
+}
+
+.button:hover {
+  color: #f44336;
+  border: 2px solid #f44336;
+  background-color: #fff;
+}
