@@ -1,6 +1,7 @@
 import React from 'react'
 import DefaultPageTemplate from 'components/templates/DeafaultTemplate'
 import weatherbitWeather from 'utils/weatherbitWeather'
+import WeatherInfoBlock from 'components/commonComponents/WeatherInfoBlock'
 
 class WeatherBit extends React.Component {
   state = {
@@ -18,9 +19,11 @@ class WeatherBit extends React.Component {
     const { country, city, temp } = this.state
     return (
       <DefaultPageTemplate>
-        <div>{country}</div>
-        <div>{city}</div>
-        <div>{temp} degrees</div>
+        {country ? (
+          <WeatherInfoBlock country={country} city={city} temp={temp} />
+        ) : (
+          <div>Loading...</div>
+        )}
       </DefaultPageTemplate>
     )
   }

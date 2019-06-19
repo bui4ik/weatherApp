@@ -1,0 +1,18 @@
+.location {
+  font-size: 30px;
+  margin: 0 auto;
+}
+
+.temperatureContainer {
+  display: flex;
+  margin: 0 auto;
+}
+
+.degrees {
+  font-size: 45px;
+  margin-right: 5px;
+}
+
+.celsius {
+  padding-top: 10px;
+}
