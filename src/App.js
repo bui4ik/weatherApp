@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react'
+import React from 'react'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { ThemeProvider } from 'emotion-theming'
@@ -8,7 +8,7 @@ import Routes from 'routes'
 import GlobalStyle from 'GlobalStyle'
 
 const App = () => (
-  <StrictMode>
+  <>
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <ThemeProvider theme={theme}>
@@ -17,7 +17,7 @@ const App = () => (
       </ConnectedRouter>
     </Provider>
     <GlobalStyle />
-  </StrictMode>
+  </>
 )
 
 export default App

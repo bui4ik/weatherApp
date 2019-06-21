@@ -1,10 +1,10 @@
 import React from 'react'
-import styles from './index.module.css'
+import * as S from './styles'
 
 const DefaultPageTemplate = ({ children }) => (
-  <div className={styles.pageContainer}>
-    <div className={styles.container}>{children}</div>
-  </div>
+  <S.PageContainer>
+    <S.ContentWrapper>{children}</S.ContentWrapper>
+  </S.PageContainer>
 )
 
 export default DefaultPageTemplate

@@ -1,7 +1,11 @@
 import React from 'react'
 import DefaultPageTemplate from 'components/templates/DeafaultTemplate'
 import apixuWeather from 'utils/apixuWeather'
-import WeatherInfoBlock from '../../commonComponents/WeatherInfoBlock'
+import WeatherInfoBlock from 'components/WeatherInfoBlock'
+import compareUpdateTime from 'utils/compareUpdateTime'
+import setApixuWeatherDataToLocalStorage from 'utils/setApixuWeatherDataToLocalStorage'
+import Loading from 'components/Loading'
+import apixuCustomWeather from '../../../utils/apixuCustomWeather'
 
 class ApixuWeather extends React.Component {
   state = {
@@ -11,22 +15,14 @@ class ApixuWeather extends React.Component {
   }
 
   async componentDidMount() {
-    const date = localStorage.getItem('ApixuRequestDate')
-    const locationDate = date && new Date(parseInt(date))
-    const now = new Date()
+    const isApixuWeatherDataTooOld = compareUpdateTime('ApixuRequestDate')
 
-    const dataAge = Math.round(now - locationDate) / (1000 * 60) // in minutes
-    const tooOld = dataAge >= 1
-
-    if (tooOld) {
+    if (isApixuWeatherDataTooOld) {
       const [country, city, temp] = await apixuWeather()
-      localStorage.setItem('ApixuCountry', country)
-      localStorage.setItem('ApixuCity', city)
-      localStorage.setItem('ApixuTemp', temp)
-      localStorage.setItem('ApixuRequestDate', Date.now())
+      setApixuWeatherDataToLocalStorage(country, city, temp)
       this.setState({ country, city, temp })
     } else {
-      console.log(`Using APIXU data from local storage that are ${dataAge} minutes old`)
+      console.log(`Using APIXU data from local storage`)
       this.setState({
         country: localStorage.getItem('ApixuCountry'),
         city: localStorage.getItem('ApixuCity'),
@@ -40,9 +36,14 @@ class ApixuWeather extends React.Component {
     return (
       <DefaultPageTemplate>
         {country ? (
-          <WeatherInfoBlock country={country} city={city} temp={temp} />
+          <WeatherInfoBlock
+            country={country}
+            city={city}
+            temp={temp}
+            getCustomWeather={apixuCustomWeather}
+          />
         ) : (
-          <div>Loading...</div>
+          <Loading />
         )}
       </DefaultPageTemplate>
     )

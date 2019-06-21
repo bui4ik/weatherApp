@@ -2,9 +2,7 @@ import axios from 'axios'
 
 const API = 'a722e47eb8f54c5f892633b0c56ca498'
 
-const weatherbitWeather = async () => {
-  const latitude = localStorage.getItem('latitude')
-  const longitude = localStorage.getItem('longitude')
+const weatherBitCustomWeather = async (latitude, longitude) => {
   try {
     const { data } = await axios.get(
       `https://api.weatherbit.io/v2.0/current?&lat=${latitude}&lon=${longitude}&key=${API}`,
@@ -15,4 +13,4 @@ const weatherbitWeather = async () => {
   }
 }
 
-export default weatherbitWeather
+export default weatherBitCustomWeather
