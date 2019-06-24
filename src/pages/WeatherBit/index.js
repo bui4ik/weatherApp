@@ -1,11 +1,10 @@
 import React from 'react'
-import DefaultPageTemplate from 'components/templates/DeafaultTemplate'
-import weatherbitWeather from 'utils/weatherbitWeather'
 import WeatherInfoBlock from 'components/WeatherInfoBlock'
 import compareUpdateTime from 'utils/compareUpdateTime'
-import setWeatherBitDataToLocalStorage from 'utils/setWeatherBitDataToLocalStorage'
+import setWeatherBitDataToLocalStorage from 'utils/weatherDataOperations/setWeatherBitDataToLocalStorage'
 import Loading from 'components/Loading'
-import weatherBitCustomWeather from 'utils/weatherBitCustomWeather'
+import weatherBitCustomWeather from 'utils/weatherDataOperations/weatherBitCustomWeather'
+import checkUserLocation from 'utils/locationDataOperations/checkUserLocation'
 
 class WeatherBit extends React.Component {
   state = {
@@ -15,14 +14,15 @@ class WeatherBit extends React.Component {
   }
 
   async componentDidMount() {
+    await checkUserLocation()
+
     const isWeatherBitDataTooOld = compareUpdateTime('WeatherBitRequestDate')
 
     if (isWeatherBitDataTooOld) {
-      const [country, city, temp] = await weatherbitWeather()
+      const [country, city, temp] = await weatherBitCustomWeather()
       setWeatherBitDataToLocalStorage(country, city, temp)
       this.setState({ country, city, temp })
     } else {
-      console.log(`Using WeatherBit data from local storage`)
       this.setState({
         country: localStorage.getItem('WeatherBitCountry'),
         city: localStorage.getItem('WeatherBitCity'),
@@ -31,21 +31,31 @@ class WeatherBit extends React.Component {
     }
   }
 
+  onNewCityWeatherRequest = () => {
+    this.setState({
+      country: localStorage.getItem('WeatherBitCountry'),
+      city: localStorage.getItem('WeatherBitCity'),
+      temp: localStorage.getItem('WeatherBitTemp'),
+    })
+  }
+
   render() {
     const { country, city, temp } = this.state
     return (
-      <DefaultPageTemplate>
+      <>
         {country ? (
           <WeatherInfoBlock
             country={country}
             city={city}
             temp={temp}
             getCustomWeather={weatherBitCustomWeather}
+            setWeatherDataToLocalStorage={setWeatherBitDataToLocalStorage}
+            onNewCityWeatherRequest={this.onNewCityWeatherRequest}
           />
         ) : (
           <Loading />
         )}
-      </DefaultPageTemplate>
+      </>
     )
   }
 }

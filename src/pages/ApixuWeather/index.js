@@ -1,11 +1,10 @@
 import React from 'react'
-import DefaultPageTemplate from 'components/templates/DeafaultTemplate'
-import apixuWeather from 'utils/apixuWeather'
 import WeatherInfoBlock from 'components/WeatherInfoBlock'
 import compareUpdateTime from 'utils/compareUpdateTime'
-import setApixuWeatherDataToLocalStorage from 'utils/setApixuWeatherDataToLocalStorage'
+import setApixuWeatherDataToLocalStorage from 'utils/weatherDataOperations/setApixuWeatherDataToLocalStorage'
 import Loading from 'components/Loading'
-import apixuCustomWeather from '../../../utils/apixuCustomWeather'
+import apixuCustomWeather from 'utils/weatherDataOperations/apixuCustomWeather'
+import checkUserLocation from 'utils/locationDataOperations/checkUserLocation'
 
 class ApixuWeather extends React.Component {
   state = {
@@ -15,14 +14,15 @@ class ApixuWeather extends React.Component {
   }
 
   async componentDidMount() {
+    await checkUserLocation()
+
     const isApixuWeatherDataTooOld = compareUpdateTime('ApixuRequestDate')
 
     if (isApixuWeatherDataTooOld) {
-      const [country, city, temp] = await apixuWeather()
+      const [country, city, temp] = await apixuCustomWeather()
       setApixuWeatherDataToLocalStorage(country, city, temp)
       this.setState({ country, city, temp })
     } else {
-      console.log(`Using APIXU data from local storage`)
       this.setState({
         country: localStorage.getItem('ApixuCountry'),
         city: localStorage.getItem('ApixuCity'),
@@ -31,21 +31,31 @@ class ApixuWeather extends React.Component {
     }
   }
 
+  onNewCityWeatherRequest = () => {
+    this.setState({
+      country: localStorage.getItem('ApixuCountry'),
+      city: localStorage.getItem('ApixuCity'),
+      temp: localStorage.getItem('ApixuTemp'),
+    })
+  }
+
   render() {
     const { country, city, temp } = this.state
     return (
-      <DefaultPageTemplate>
+      <>
         {country ? (
           <WeatherInfoBlock
             country={country}
             city={city}
             temp={temp}
             getCustomWeather={apixuCustomWeather}
+            setWeatherDataToLocalStorage={setApixuWeatherDataToLocalStorage}
+            onNewCityWeatherRequest={this.onNewCityWeatherRequest}
           />
         ) : (
           <Loading />
         )}
-      </DefaultPageTemplate>
+      </>
     )
   }
 }

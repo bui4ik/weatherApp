@@ -1,9 +1,9 @@
 import React from 'react'
 import { Switch, Route } from 'react-router'
 import routes from 'config/routes'
-import WeatherServiceSelection from 'components/pages/WeatherServiceSelection'
-import ApixuWeather from '../components/pages/ApixuWeather'
-import WeatherBit from '../components/pages/WeatherBit'
+import WeatherServiceSelection from 'pages/WeatherServiceSelection'
+import ApixuWeather from '../pages/ApixuWeather'
+import WeatherBit from '../pages/WeatherBit'
 
 const Routes = () => (
   <Switch>

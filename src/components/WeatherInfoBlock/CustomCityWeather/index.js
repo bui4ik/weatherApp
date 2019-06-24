@@ -1,21 +1,14 @@
 import React from 'react'
-import AsyncSelect from 'react-select/async'
-import apixuWeatherSearch from 'utils/apixuWeatherSearch'
-import { css } from 'emotion'
+import apixuCitySearch from 'utils/apixuCitySearch'
 import * as S from './styles'
 
 class CustomCityWeather extends React.Component {
   state = {
     requestValue: '',
-    requestResult: {
-      country: '',
-      city: '',
-      temp: '',
-    },
   }
 
   loadOptions = inputValue => {
-    return apixuWeatherSearch(inputValue)
+    return apixuCitySearch(inputValue)
   }
 
   onInputChange = inputValue => {
@@ -24,37 +17,28 @@ class CustomCityWeather extends React.Component {
 
   getWeather = async () => {
     const { requestValue } = this.state
-    const { getCustomWeather } = this.props
+    const { getCustomWeather, setWeatherDataToLocalStorage, onNewCityWeatherRequest } = this.props
     const [country, city, temp] = await getCustomWeather(
       requestValue.latitude,
       requestValue.longitude,
     )
-    this.setState({ requestResult: { country, city, temp } })
+    setWeatherDataToLocalStorage(country, city, temp)
+    onNewCityWeatherRequest()
   }
 
   render() {
-    const { requestResult, requestValue } = this.state
+    const { requestValue } = this.state
     return (
       <S.Container>
+        <S.Hint>start writing to select a city</S.Hint>
         <S.SelectAndButtonsContainer>
           <S.SelectContainer>
-            <AsyncSelect
-              loadOptions={this.loadOptions}
-              onChange={this.onInputChange}
-              className={css`
-                width: 260px;
-              `}
-            />
+            <S.Select loadOptions={this.loadOptions} onChange={this.onInputChange} />
           </S.SelectContainer>
-          <S.Button onClick={this.getWeather} disabled={!requestValue && true}>
+          <S.Button onClick={this.getWeather} disabled={!requestValue}>
             Get Weather
           </S.Button>
         </S.SelectAndButtonsContainer>
-        {requestResult.country && (
-          <S.RequestResult>
-            {requestResult.country}, {requestResult.city}, {requestResult.temp} °C
-          </S.RequestResult>
-        )}
       </S.Container>
     )
   }

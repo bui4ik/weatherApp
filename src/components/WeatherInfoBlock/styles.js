@@ -1,19 +1,15 @@
 import styled from 'styled-components'
 
-export const Title = styled.div`
-  margin: 0 auto;
-  font-size: 12px;
-  color: rgba(0, 0, 0, 0.5);
-`
-
 export const Location = styled.div`
   font-size: 30px;
+  font-weight: 800;
   margin: 0 auto;
+  text-align: center;
 `
 
 export const TemperatureContainer = styled.div`
   display: flex;
-  margin: 0 auto;
+  margin: 10px auto;
 `
 
 export const Degrees = styled.div`

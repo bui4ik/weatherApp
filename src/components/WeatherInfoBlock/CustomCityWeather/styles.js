@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import AsyncSelect from 'react-select/async'
 
 export const Container = styled.div`
   padding: 10px;
@@ -19,6 +20,14 @@ export const SelectContainer = styled.div`
   margin: 0 auto;
 `
 
+export const Hint = styled.div`
+  font-size: 10px;
+`
+
+export const Select = styled(AsyncSelect)`
+  width: 260px;
+`
+
 export const Button = styled.button`
   margin: 20px auto 20px 10px;
   border: 2px solid #fff;
@@ -35,8 +44,15 @@ export const Button = styled.button`
     background-color: #fff;
     color: #64b5f6;
   }
-`
 
-export const RequestResult = styled.div`
-  margin: 0 auto;
+  :disabled {
+    background-color: #9e9e9e;
+    opacity: 0.5;
+
+    :hover {
+      background-color: #9e9e9e;
+      border: 2px solid #fff;
+      color: #fff;
+    }
+  }
 `

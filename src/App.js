@@ -1,23 +1,18 @@
 import React from 'react'
-import { Provider } from 'react-redux'
-import { ConnectedRouter } from 'connected-react-router'
-import { ThemeProvider } from 'emotion-theming'
-import store, { history } from 'store'
-import theme from 'config/theme'
+import { BrowserRouter } from 'react-router-dom'
 import Routes from 'routes'
 import GlobalStyle from 'GlobalStyle'
+import * as S from './styles'
 
 const App = () => (
-  <>
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <ThemeProvider theme={theme}>
-          <Routes />
-        </ThemeProvider>
-      </ConnectedRouter>
-    </Provider>
+  <BrowserRouter>
+    <S.PageContainer>
+      <S.ContentWrapper>
+        <Routes />
+      </S.ContentWrapper>
+    </S.PageContainer>
     <GlobalStyle />
-  </>
+  </BrowserRouter>
 )
 
 export default App
