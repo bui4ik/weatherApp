@@ -2,12 +2,12 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import routes from 'config/routes'
 import * as S from './styles'
-import CustomCityWeather from './CustomCityWeather'
+import CitySelection from '../CitySelection'
 
 const WeatherInfoBlock = ({
   country,
   city,
-  temp,
+  temperature,
   getCustomWeather,
   setWeatherDataToLocalStorage,
   onNewCityWeatherRequest,
@@ -17,10 +17,10 @@ const WeatherInfoBlock = ({
       {country}, {city}
     </S.Location>
     <S.TemperatureContainer>
-      <S.Degrees>{temp}</S.Degrees>
+      <S.Degrees>{temperature}</S.Degrees>
       <S.Celsius>°C</S.Celsius>
     </S.TemperatureContainer>
-    <CustomCityWeather
+    <CitySelection
       getCustomWeather={getCustomWeather}
       setWeatherDataToLocalStorage={setWeatherDataToLocalStorage}
       onNewCityWeatherRequest={onNewCityWeatherRequest}

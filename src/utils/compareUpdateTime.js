@@ -1,5 +1,5 @@
-const compareUpdateTime = DataUpdateTime => {
-  const date = localStorage.getItem(DataUpdateTime)
+const compareUpdateTime = dataUpdateTime => {
+  const date = localStorage.getItem(dataUpdateTime)
   if (date) {
     const propertyDate = date && new Date(parseInt(date))
     const now = new Date()

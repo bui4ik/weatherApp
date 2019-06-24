@@ -2,7 +2,7 @@ import React from 'react'
 import apixuCitySearch from 'utils/apixuCitySearch'
 import * as S from './styles'
 
-class CustomCityWeather extends React.Component {
+class CitySelection extends React.Component {
   state = {
     requestValue: '',
   }
@@ -44,4 +44,4 @@ class CustomCityWeather extends React.Component {
   }
 }
 
-export default CustomCityWeather
+export default CitySelection

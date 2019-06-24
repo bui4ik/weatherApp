@@ -2,7 +2,7 @@ import compareUpdateTime from '../compareUpdateTime'
 import getLocation from './getLocation'
 import setLocationDataToLocalStorage from './setLocationDataToLocalStorage'
 
-const checkUserLocation = async () => {
+const setUserLocation = async () => {
   const isLocationDataTooOld = compareUpdateTime('locationLastUpdatedTime')
 
   if (isLocationDataTooOld) {
@@ -11,4 +11,4 @@ const checkUserLocation = async () => {
   }
 }
 
-export default checkUserLocation
+export default setUserLocation

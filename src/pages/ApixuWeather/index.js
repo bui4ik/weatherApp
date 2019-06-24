@@ -3,52 +3,47 @@ import WeatherInfoBlock from 'components/WeatherInfoBlock'
 import compareUpdateTime from 'utils/compareUpdateTime'
 import setApixuWeatherDataToLocalStorage from 'utils/weatherDataOperations/setApixuWeatherDataToLocalStorage'
 import Loading from 'components/Loading'
-import apixuCustomWeather from 'utils/weatherDataOperations/apixuCustomWeather'
-import checkUserLocation from 'utils/locationDataOperations/checkUserLocation'
+import apixuWeather from 'utils/weatherDataOperations/apixuWeather'
+import setUserLocation from 'utils/locationDataOperations/setUserLocation'
+import getApixuWeatherDataFromLocalStorage from 'utils/weatherDataOperations/getApixuWeatherDataFromLocalStorage'
 
 class ApixuWeather extends React.Component {
   state = {
     country: '',
     city: '',
-    temp: '',
+    temperature: '',
   }
 
   async componentDidMount() {
-    await checkUserLocation()
+    await setUserLocation()
 
     const isApixuWeatherDataTooOld = compareUpdateTime('ApixuRequestDate')
 
     if (isApixuWeatherDataTooOld) {
-      const [country, city, temp] = await apixuCustomWeather()
-      setApixuWeatherDataToLocalStorage(country, city, temp)
-      this.setState({ country, city, temp })
+      const [country, city, temperature] = await apixuWeather()
+      setApixuWeatherDataToLocalStorage(country, city, temperature)
+      this.setState({ country, city, temperature })
     } else {
-      this.setState({
-        country: localStorage.getItem('ApixuCountry'),
-        city: localStorage.getItem('ApixuCity'),
-        temp: localStorage.getItem('ApixuTemp'),
-      })
+      const [country, city, temperature] = getApixuWeatherDataFromLocalStorage()
+      this.setState({ country, city, temperature })
     }
   }
 
   onNewCityWeatherRequest = () => {
-    this.setState({
-      country: localStorage.getItem('ApixuCountry'),
-      city: localStorage.getItem('ApixuCity'),
-      temp: localStorage.getItem('ApixuTemp'),
-    })
+    const [country, city, temperature] = getApixuWeatherDataFromLocalStorage()
+    this.setState({ country, city, temperature })
   }
 
   render() {
-    const { country, city, temp } = this.state
+    const { country, city, temperature } = this.state
     return (
       <>
         {country ? (
           <WeatherInfoBlock
             country={country}
             city={city}
-            temp={temp}
-            getCustomWeather={apixuCustomWeather}
+            temperature={temperature}
+            getCustomWeather={apixuWeather}
             setWeatherDataToLocalStorage={setApixuWeatherDataToLocalStorage}
             onNewCityWeatherRequest={this.onNewCityWeatherRequest}
           />

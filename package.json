@@ -12,8 +12,6 @@
     "prettier": "prettier --write -l \"src/**/*.{js,jsx}\""
   },
   "dependencies": {
-    "@emotion/core": "^10.0.10",
-    "@emotion/styled": "^10.0.11",
     "axios": "^0.19.0",
     "connected-react-router": "^6.4.0",
     "emotion-theming": "^10.0.10",

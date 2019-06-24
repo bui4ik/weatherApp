@@ -1,10 +1,9 @@
 import axios from 'axios'
-import apiKeys from 'api/apiKeys'
 
 const apixuCitySearch = async value => {
   try {
     const { data } = await axios.get(
-      `http://api.apixu.com/v1/search.json?key=${apiKeys.apixuWeather}&q=${value}`,
+      `http://api.apixu.com/v1/search.json?key=${process.env.REACT_APP_APIXU_API_KEY}&q=${value}`,
     )
     return data.map(({ name, lat, lon, id }) => ({
       value: id,

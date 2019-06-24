@@ -3,52 +3,47 @@ import WeatherInfoBlock from 'components/WeatherInfoBlock'
 import compareUpdateTime from 'utils/compareUpdateTime'
 import setWeatherBitDataToLocalStorage from 'utils/weatherDataOperations/setWeatherBitDataToLocalStorage'
 import Loading from 'components/Loading'
-import weatherBitCustomWeather from 'utils/weatherDataOperations/weatherBitCustomWeather'
-import checkUserLocation from 'utils/locationDataOperations/checkUserLocation'
+import weatherBitWeather from 'utils/weatherDataOperations/weatherBitWeather'
+import setUserLocation from 'utils/locationDataOperations/setUserLocation'
+import getWeatherBitDataFromLocalStorage from '../../utils/weatherDataOperations/getWeatherBitDataFromLocalStorage'
 
 class WeatherBit extends React.Component {
   state = {
     country: '',
     city: '',
-    temp: '',
+    temperature: '',
   }
 
   async componentDidMount() {
-    await checkUserLocation()
+    await setUserLocation()
 
     const isWeatherBitDataTooOld = compareUpdateTime('WeatherBitRequestDate')
 
     if (isWeatherBitDataTooOld) {
-      const [country, city, temp] = await weatherBitCustomWeather()
-      setWeatherBitDataToLocalStorage(country, city, temp)
-      this.setState({ country, city, temp })
+      const [country, city, temperature] = await weatherBitWeather()
+      setWeatherBitDataToLocalStorage(country, city, temperature)
+      this.setState({ country, city, temperature })
     } else {
-      this.setState({
-        country: localStorage.getItem('WeatherBitCountry'),
-        city: localStorage.getItem('WeatherBitCity'),
-        temp: localStorage.getItem('WeatherBitTemp'),
-      })
+      const [country, city, temperature] = getWeatherBitDataFromLocalStorage()
+      this.setState({ country, city, temperature })
     }
   }
 
   onNewCityWeatherRequest = () => {
-    this.setState({
-      country: localStorage.getItem('WeatherBitCountry'),
-      city: localStorage.getItem('WeatherBitCity'),
-      temp: localStorage.getItem('WeatherBitTemp'),
-    })
+    const [country, city, temperature] = getWeatherBitDataFromLocalStorage()
+    this.setState({ country, city, temperature })
   }
 
   render() {
-    const { country, city, temp } = this.state
+    const { country, city, temperature } = this.state
     return (
       <>
         {country ? (
           <WeatherInfoBlock
             country={country}
             city={city}
-            temp={temp}
-            getCustomWeather={weatherBitCustomWeather}
+            temperature={temperature}
+            getCustomWeather={weatherBitWeather}
             setWeatherDataToLocalStorage={setWeatherBitDataToLocalStorage}
             onNewCityWeatherRequest={this.onNewCityWeatherRequest}
           />

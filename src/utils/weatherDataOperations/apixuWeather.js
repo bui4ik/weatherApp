@@ -1,13 +1,14 @@
 import axios from 'axios'
-import apiKeys from 'api/apiKeys'
 
-const apixuCustomWeather = async (
+const apixuWeather = async (
   latitude = localStorage.getItem('latitude'),
   longitude = localStorage.getItem('longitude'),
 ) => {
   try {
     const { data } = await axios.get(
-      `http://api.apixu.com/v1/current.json?key=${apiKeys.apixuWeather}&q=${latitude},${longitude}`,
+      `http://api.apixu.com/v1/current.json?key=${
+        process.env.REACT_APP_APIXU_API_KEY
+      }&q=${latitude},${longitude}`,
     )
     return [data.location.country, data.location.region, data.current.temp_c]
   } catch (e) {
@@ -15,4 +16,4 @@ const apixuCustomWeather = async (
   }
 }
 
-export default apixuCustomWeather
+export default apixuWeather
