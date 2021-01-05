@@ -12,7 +12,7 @@
     "prettier": "prettier --write -l \"src/**/*.{js,jsx}\""
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "connected-react-router": "^6.4.0",
     "emotion-theming": "^10.0.10",
     "history": "^4.9.0",
